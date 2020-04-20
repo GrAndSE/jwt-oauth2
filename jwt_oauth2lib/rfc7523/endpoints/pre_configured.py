@@ -16,15 +16,15 @@ from oauthlib.oauth2 import (
     TokenEndpoint,
 )
 from oauthlib.oauth2.rfc6749.grant_types import (
-    AuthCodeGrantDispatcher,
     AuthorizationCodeGrant,
     ClientCredentialsGrant,
     ImplicitGrant,
-    OpenIDConnectAuthCode,
-    OpenIDConnectImplicit,
     RefreshTokenGrant,
     ResourceOwnerPasswordCredentialsGrant,
 )
+from oauthlib.openid.connect.core.grant_types.dispatchers import AuthorizationCodeGrantDispatcher
+from oauthlib.openid.connect.core.grant_types import AuthorizationCodeGrant as OpenIDConnectAuthCode
+from oauthlib.openid.connect.core.grant_types import ImplicitGrant as OpenIDConnectImplicit
 
 # Local Imports
 from jwt_oauth2lib.rfc7523.grant_types import JWTGrant
@@ -67,7 +67,7 @@ class Server(AuthorizationEndpoint, TokenEndpoint, ResourceEndpoint,
             token_expires_in, refresh_token_generator
         )
 
-        auth_grant_choice = AuthCodeGrantDispatcher(
+        auth_grant_choice = AuthorizationCodeGrantDispatcher(
             default_auth_grant=auth_grant,
             oidc_auth_grant=openid_connect_auth
         )
